@@ -5,6 +5,7 @@ import "./Countries.css"
 const Countries = () => {
   const [countries, setCountries] = useState([]);
   const [visitedCountries, setVisitedCountries] = useState([])
+  const [visitedFlags, setVisitedFlags] = useState([])
 
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all")
@@ -16,6 +17,12 @@ const Countries = () => {
     const newVisitedCountries = [...visitedCountries, country];
     setVisitedCountries(newVisitedCountries);
     
+  }
+
+  const handleVisitedFlags = flag =>{
+    console.log("flag added")
+    const newVisitedFlag = [...visitedFlags, flag]
+    setVisitedFlags(newVisitedFlag)
   }
   return (
     <div>
@@ -31,12 +38,22 @@ const Countries = () => {
                 
         </ul>
       </div>
+
+      <div>
+        <h3>Visited Flag : {visitedFlags.length} </h3>
+        <div className="flag-container">
+            {
+                visitedFlags.map((flag, idx) => <img key={idx} src={flag}></img> )
+            }
+        </div>
+      </div>
       <div className="countries-container">
         {countries.map((country) => (
           <Country 
           key={country.cca3} 
           country={country}
           handleVisitedCountries = {handleVisitedCountries}
+          handleVisitedFlags = {handleVisitedFlags}
           ></Country>
         ))}
       </div>
